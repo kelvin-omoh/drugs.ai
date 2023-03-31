@@ -1,0 +1,74 @@
+{% include 'header.html' %}
+
+<style>
+  table {
+    border-collapse: collapse;
+    width: 50%;
+  }
+  
+  th, td {
+    text-align: left;
+    padding: 8px;
+  }
+  
+  th {
+    background-color: #6B76E1;
+    color: white;
+    font-weight: bold;
+  }
+  
+  td:nth-child(3),
+  td:nth-child(4) {
+    width: 100px;
+  }
+  td {
+      word-wrap: break-word;
+  } 
+  textarea {
+  width: 300px;
+  height: 50px;
+  resize: none;
+}
+  </style>
+
+<div class="container mt-5">
+  <h2>Generated Protein Sequence of Drugs</h2>
+  <table class="table">
+    <thead>
+      <tr>
+        <th scope="col">No</th>
+        <th scope="col">Protein Sequence</th>
+        <th scope="col">MW</th>
+        <th scope="col">LogP</th>
+        <th scope="col">HBD</th>
+        <th scope="col">HBA</th>
+        <th scope="col">TPSA</th>
+        <th scope="col">BioAS</th>
+      </tr>
+    </thead>
+    <tbody>
+      {% for i in range(0, lenght) %}
+        <tr>
+          <th scope="row">{{ i+1 }}</th>
+          <td><textarea id="smiles" readonly style="resize: none;">{{ result[i]['gen'] }}</textarea><button onclick="copyToClipboard()">Copy</button></td>
+          <td>{{ result[i]['MW'] }}</td>
+          <td>{{ result[i]['LogP'] }}</td>
+          <td>{{ result[i]['HBD'] }}</td>
+          <td>{{ result[i]['HBA'] }}</td>
+          <td>{{ result[i]['TPSA'] }}</td>
+          <td>{{ result[i]['score'] }}</td>
+        </tr>
+      {% endfor %}
+    </tbody>
+  </table>
+</div>
+<script>
+   function copyToClipboard() {
+            var names = "smiles";
+  var copyText = document.getElementById(names);
+  copyText.select();
+  document.execCommand("copy");
+}
+</script>
+
+{% include 'footer.html' %}

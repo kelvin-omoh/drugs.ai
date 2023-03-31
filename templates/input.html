@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html>
+    <style>
+        table {
+          border-collapse: collapse;
+          width: 50%;
+        }
+        
+        th, td {
+          text-align: left;
+          padding: 8px;
+        }
+        
+        th {
+          background-color: #6B76E1;
+          color: white;
+          font-weight: bold;
+        }
+        
+        td:nth-child(3),
+        td:nth-child(4) {
+          width: 100px;
+        }
+        td {
+            word-wrap: break-word;
+        } 
+        textarea {
+        width: 300px;
+        height: 50px;
+        resize: none;
+      }
+        </style>
+    <head>
+        <meta charset="UTF-8">
+        <title>Input Page | drugs.ai</title>
+    </head>
+    <body>
+        {% include 'header.html' %}
+        <h2>Input Page</h2>
+        <form method="POST" action="/result" class="form-inline">
+            <div class="form-group">
+              <label for="targetSelect" class="mr-2">Target:</label>
+              <select name="Target" id="targetSelect" class="form-control mr-2">
+                {% for targets in target %}
+                  <option value="{{ targets }}">{{ targets }}</option>
+                {% endfor %}
+              </select>
+            </div>
+            <button class="btn" style="background-color: #6B76E1;color: white;" type="submit"><i class="bi bi-gear"></i> Generate</button>
+          </form>          
+        <br>
+        <h3>History Protein Sequence Of Drugs Data <button class="btn" style="background-color: #6B76E1;color: white;"><a href="static/dataset/history_generated.csv" style="color: white;" download><i class="bi bi-download"></i></a></button></h3>
+        <table>
+            <thead>
+                <tr>
+                    <th>No</th>
+                    <th style="width: 50px;">Protein Sequence</th>
+                    <th>MW</th>
+                    <th>LogP</th>
+                    <th>HBD</th>
+                    <th>HBA</th>
+                    <th>TPSA</th>
+                    <th>BioAS</th>
+                    <th>Time</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for i in range(0, lenght) %}
+                <tr>
+                    <td>{{ i+1 }}</td>
+                    <td>
+                        <textarea id="smiles{{i+1}}" readonly style="resize: none;">{{ history[i]['Sequence'] }}</textarea><br/><button onclick="copyToClipboard('{{i+1}}')" class="btn" style="background-color: #6B76E1;color: white;"><i class="bi bi-clipboard"></i></button>
+                    </td>
+                    <td>{{ history[i]['MW'] }}</td>
+                    <td>{{ history[i]['LogP'] }}</td>
+                    <td>{{ history[i]['HBD'] }}</td>
+                    <td>{{ history[i]['HBA'] }}</td>
+                    <td>{{ history[i]['TPSA'] }}</td>
+                    <td>{{ history[i]['BioAS'] }}</td>
+                    <td>{{ history[i]['time'] }}</td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+        {% include 'footer.html' %}
+    </body>
+    <script>
+        function copyToClipboard(num) {
+            var names = "smiles"+num;
+  var copyText = document.getElementById(names);
+  copyText.select();
+  document.execCommand("copy");
+}
+
+    </script>
+</html>
